@@ -2,10 +2,7 @@ package com.my_proto.server;
 
 import cn.hutool.core.thread.ThreadUtil;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoop;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -44,7 +41,21 @@ public class Server {
         ChannelFuture future = sbs.bind(port).sync();
 
         System.out.println("Server start listen at " + port );
-        future.channel().closeFuture().sync();
+        //future.channel().closeFuture().sync(); //main线程同步阻塞等待
+
+
+
+        //main线程不阻塞继续执行模式
+        future.channel().closeFuture().addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture future) throws Exception {
+                bossGroup.shutdownGracefully();
+                workerGroup.shutdownGracefully();
+                System.out.println(future.channel().toString()+"链路关闭");
+            }
+        });
+
+        System.out.println("main线程执行完毕");
     }
 
     public static void main(String[] args) throws InterruptedException {
