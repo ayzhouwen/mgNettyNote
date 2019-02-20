@@ -29,6 +29,7 @@ public class Client {
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new MyProtocolEncoder());
                             ch.pipeline().addLast(new ClientHandler());
+
                         }
                     });
 
