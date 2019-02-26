@@ -63,7 +63,7 @@ public class TestServer {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Server server=new Server(9999);
+        TestServer server=new TestServer(9999);
         server.start();
 
     }

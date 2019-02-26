@@ -20,7 +20,7 @@ public class MemoryPoolLeakHandler extends ChannelInboundHandlerAdapter {
             //转发成功,返回响应给客户端
             ByteBuf respMsg=allocator.heapBuffer(body.length);
             respMsg.writeBytes(body);  //作为示例,简化处理,将请求返回
-            ctx.writeAndFlush(respMsg);
+            ctx.channel().writeAndFlush(respMsg);
         });
     }
 
