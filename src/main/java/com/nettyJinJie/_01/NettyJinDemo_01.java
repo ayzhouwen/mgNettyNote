@@ -1,6 +1,6 @@
 package com.nettyJinJie._01;
 
-import com.nettyJinJie.common.RecvHanldler;
+import com.nettyJinJie.common.ByteBufRecvHanldlerA;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NettyJinDemo_01 {
     public static void main(String[] args) throws InterruptedException {
-        EventLoopGroup bossGroup=new NioEventLoopGroup(1);
+        EventLoopGroup bossGroup=new NioEventLoopGroup();
         EventLoopGroup workerGroup=new NioEventLoopGroup();
         try {
 
@@ -25,7 +25,11 @@ public class NettyJinDemo_01 {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p=ch.pipeline();
-                            p.addLast(new RecvHanldler());
+                            p.addLast(new ByteBufRecvHanldlerA());
+                            //增加A再增加B,但是B收不到消息,SimpleChannelInboundHandler
+//                            p.addLast(new RecvHanldlerB());
+//                            p.addLast(new TestHandlerA());
+//                            p.addLast(new TestHandlerB());
                         }
                     });
 
@@ -40,6 +44,7 @@ public class NettyJinDemo_01 {
                 }
             });
         } finally {
+            //不能在此加入关闭功能代码,否则程序会退出
 //            bossGroup.shutdownGracefully();
 //            workerGroup.shutdownGracefully();
         }

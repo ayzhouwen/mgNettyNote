@@ -32,7 +32,7 @@
     </appender>
 
     <!-- log level TRACE, DEBUG, INFO, WARN, ERROR, ALL and OFF,default：DEBUG。-->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" /> <!-- show log on console -->
         <appender-ref ref="FILE" /> <!-- show log in file -->
     </root>
