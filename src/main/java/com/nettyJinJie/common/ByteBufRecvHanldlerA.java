@@ -40,8 +40,10 @@ public class ByteBufRecvHanldlerA extends SimpleChannelInboundHandler<ByteBuf>{
        //ctx.writeAndFlush("哈哈");
         //不能直接发送字符串字节数组,否则会报 unsupported message type: String (expected: ByteBuf, FileRegion)
         //ctx.writeAndFlush("哈哈".getBytes());
+    }
 
-
-
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info("收到连接请求");
     }
 }

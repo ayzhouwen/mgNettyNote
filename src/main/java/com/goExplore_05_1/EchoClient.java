@@ -44,7 +44,7 @@ public class EchoClient {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		int port=3312;
+		int port=10880;
 		new EchoClient().connect(port, "127.0.0.1");
 	}
 }
