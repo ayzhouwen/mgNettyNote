@@ -45,7 +45,7 @@ public class NettyJinDemo_02 {
         });
 
         //如果i等于1000,此处不会出现1000个线程,真实的结果是把线程池给占满(默认cpu合数*2),
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1; i++) {
             try {
                 int finalI = i;
                 b.connect("localhost",18080).channel().closeFuture().addListener(new ChannelFutureListener() {
@@ -55,6 +55,7 @@ public class NettyJinDemo_02 {
                         log.info(future.channel().toString()+" 连接关闭!!!序号:{},ID:{}", finalI,future.channel().id());
                     }
                 });
+
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

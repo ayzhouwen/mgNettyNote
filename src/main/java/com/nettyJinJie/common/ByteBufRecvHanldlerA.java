@@ -44,6 +44,11 @@ public class ByteBufRecvHanldlerA extends SimpleChannelInboundHandler<ByteBuf>{
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("收到连接请求");
+        log.info("收到客户端连接请求,id:{}",ctx.channel().id());
     }
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        log.info("客户端连接断开,id:{}",ctx.channel().id());
+    }
+
 }

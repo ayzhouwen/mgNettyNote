@@ -16,12 +16,14 @@ public class NettyJinDemo_01 {
     public static void main(String[] args) throws InterruptedException {
         EventLoopGroup bossGroup=new NioEventLoopGroup();
         EventLoopGroup workerGroup=new NioEventLoopGroup();
+        log.info("bossGroup:{}",bossGroup);
+        log.info("workerGroup:{}",workerGroup);
         try {
 
             ServerBootstrap b=new ServerBootstrap();
             b.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG,100)
+                    .option(ChannelOption.SO_BACKLOG,100).childOption(ChannelOption.TCP_NODELAY,false)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
