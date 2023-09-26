@@ -12,7 +12,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <exec.mainClass>com.nettyJinJie._01.NettyJinDemo_01</exec.mainClass>
+<!--    <exec.mainClass>com.nettyJinJie._01.NettyJinDemo_01</exec.mainClass>-->
+    <exec.mainClass>com.http.demo1.HttpServer</exec.mainClass>
   </properties>
 
   <build>
@@ -72,7 +73,7 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
-      <version>4.1.68.Final</version>
+      <version>4.1.94.Final</version>
     </dependency>
 
     <dependency>
