@@ -2,14 +2,13 @@
 <configuration debug="false">
     <!-- Where are log files -->
     <property name="LOG_HOME" value="./log" />
-
     <!-- Output to Console -->
     <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
         <encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--%d:date，%thread:thread，%-5level：error/debug/info... %msg：message，%n:new line -->
-<!--            <pattern>%thread-%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n</pattern>-->
+            <!--            <pattern>%thread-%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n</pattern>-->
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%t]-> %m%n</pattern>
         </encoder>
     </appender>
@@ -17,11 +16,21 @@
     <!-- Output to File -->
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 基于时间和大小的轮转策略中fileNamePattern位置很重要，他决定了生成文件的名称及轮转时机,以及是否压缩 -->
+        <!-- %d决定以什么时间维度轮转(但实际轮转时机取决于日志事件的到达时间)，比如%d{yyyy/MM}:每个月开始的时候轮转,%d默认为 yyyy-MM-dd：按天轮转 -->
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/mylog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>1000MB</maxFileSize>
-            <MaxHistory>60</MaxHistory>
+            <!-- 基于时间和大小的轮转策略中fileNamePattern位置很重要，他决定了生成文件的名称及轮转时机,以及是否压缩 -->
+            <!-- %d决定以什么时间维度轮转(但实际轮转时机取决于日志事件的到达时间)，比如%d{yyyy/MM}:每个月开始的时候轮转,%d默认为 yyyy-MM-dd：按天轮转 -->
+            <!-- %i为文件按照maxFileSize大小规定轮转后的序号 -->
+            <!-- 后缀以".zip"或".gz"结尾，则开启日志文件压缩 -->
+            <fileNamePattern>${LOG_HOME}/mgNettyNote.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 单个日志文件最大大小，当文件达到该大小则触发截断（以及压缩）-->
+            <maxFileSize>100MB</maxFileSize>
+            <!-- 日志文件保留最大时间滚动周期，比如当filaNamePattern中%d以为dd结尾时，则保留3600天-->
+            <maxHistory>3600</maxHistory>
+            <!-- 日志文件保留的总的最大大小-->
+            <totalSizeCap>1000MB</totalSizeCap>
         </rollingPolicy>
 
         <encoder
@@ -32,7 +41,7 @@
     </appender>
 
     <!-- log level TRACE, DEBUG, INFO, WARN, ERROR, ALL and OFF,default：DEBUG。-->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" /> <!-- show log on console -->
         <appender-ref ref="FILE" /> <!-- show log in file -->
     </root>

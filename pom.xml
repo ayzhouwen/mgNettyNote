@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 <!--    <exec.mainClass>com.nettyJinJie._01.NettyJinDemo_01</exec.mainClass>-->
-    <exec.mainClass>com.http.demo1.HttpServer</exec.mainClass>
+    <exec.mainClass>com.test.jm.IotJmClientTest</exec.mainClass>
   </properties>
 
   <build>
@@ -91,13 +91,20 @@
     <dependency>
       <groupId>cn.hutool</groupId>
       <artifactId>hutool-all</artifactId>
-      <version>4.1.7</version>
+      <version>5.7.22</version>
     </dependency>
 
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.10</version>
+    </dependency>
+
+    <!-- 阿里JSON解析器 -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.80</version>
     </dependency>
 
     <!--    日志打印开始-->
