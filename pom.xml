@@ -90,7 +90,7 @@
 
     <dependency>
       <groupId>cn.hutool</groupId>
-      <artifactId>hutool-all</artifactId>
+      <artifactId>hutool-core</artifactId>
       <version>5.7.22</version>
     </dependency>
 
@@ -98,6 +98,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.10</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- 阿里JSON解析器 -->
