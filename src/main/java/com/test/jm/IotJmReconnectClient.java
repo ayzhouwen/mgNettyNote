@@ -9,9 +9,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 可以重连的客户端
@@ -23,7 +21,14 @@ public class IotJmReconnectClient {
     private static Bootstrap bootstrap = new Bootstrap();
     private static EventLoopGroup group = new NioEventLoopGroup();
     private static ThreadPoolExecutor sendMsgPoolExecutor= new ThreadPoolExecutor(Math.min(Runtime.getRuntime().availableProcessors()*2,32), 128, 0,
-            TimeUnit.SECONDS, new LinkedBlockingQueue<>(5000), new MyThreadFactory("sendMsgPoolExecutor"));
+            TimeUnit.SECONDS, new LinkedBlockingQueue<>(5000), new MyThreadFactory("sendMsgPool"));
+
+    /**
+     * 重连线程池
+     */
+    private static ScheduledExecutorService scheduledReConnect =
+            new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors() * 2, new MyThreadFactory("scheduledReConnectPool"));
+
     // 定义一个 AttributeKey，用于唯一标识你要绑定的属性
     public static final AttributeKey<IotJmReconnectClient> iotClient = AttributeKey.valueOf("iotClient");
 
@@ -55,7 +60,7 @@ public class IotJmReconnectClient {
                 if (!future.isSuccess()) {
                     log.error("开始重连服务器：{}:{}",host,port);
                     //重连交给后端线程执行
-                    future.channel().eventLoop().schedule(() -> {
+                    scheduledReConnect.schedule(() -> {
 
                         try {
                             connect();
@@ -77,7 +82,7 @@ public class IotJmReconnectClient {
         group.shutdownGracefully();
     }
     public static void main(String[] args) throws Exception {
-        for (int i = 0; i <1 ; i++) {
+        for (int i = 0; i <10000 ; i++) {
             IotJmReconnectClient IotJmReconnectClient = new IotJmReconnectClient("192.168.1.39", 28080);
             IotJmReconnectClient.connect();
         }
