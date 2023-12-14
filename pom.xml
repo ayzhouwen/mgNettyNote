@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 <!--    <exec.mainClass>com.nettyJinJie._01.NettyJinDemo_01</exec.mainClass>-->
-    <exec.mainClass>com.test.jm.IotJmClientTest</exec.mainClass>
+    <exec.mainClass>com.test.jm.IotJmReconnectClient</exec.mainClass>
   </properties>
 
   <build>

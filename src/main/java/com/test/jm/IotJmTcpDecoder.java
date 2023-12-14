@@ -1,12 +1,12 @@
 package com.test.jm;
 
-import com.common.thread.TaskExecutePool;
 import com.common.utils.CRCUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.Attribute;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
@@ -28,10 +28,16 @@ public class IotJmTcpDecoder extends ByteToMessageDecoder {
     private int frameDataLen = -1;
     //帧类型
     Byte frameType = null;
-    private final TaskExecutePool MsgExecute = new TaskExecutePool(32, "jmTcpDataMsgHandle", 5000);
     @Override
     public void channelInactive(ChannelHandlerContext ctx)  {
+
         log.info("jm监控主机:{}连接断开",ctx.channel().remoteAddress());
+        try {
+            Attribute<IotJmReconnectClient> clientAttr=ctx.channel().attr(IotJmReconnectClient.iotClient);
+            clientAttr.get().connect();
+        } catch (Exception e) {
+            log.error("重连异常：",e);
+        }
     }
     @Override
     public void channelActive(ChannelHandlerContext ctx)  {
