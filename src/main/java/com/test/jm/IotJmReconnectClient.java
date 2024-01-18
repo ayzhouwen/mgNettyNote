@@ -71,8 +71,8 @@ public class IotJmReconnectClient {
                 } else {
                     log.info("连接服务器：{}:{}成功",host,port);
                     cf.channel().attr(iotClient).set(my);
-                    SendMsgRunable sendMsgRunable=new  SendMsgRunable(future.channel(),IotJmReconnectClient.this);
-                    sendMsgPoolExecutor.execute(sendMsgRunable);
+                    ScheduledSendMsgRunable scheduledSendMsgRunable =new ScheduledSendMsgRunable(future.channel(),IotJmReconnectClient.this);
+                    sendMsgPoolExecutor.execute(scheduledSendMsgRunable);
                 }
             }
         });
@@ -82,7 +82,7 @@ public class IotJmReconnectClient {
         group.shutdownGracefully();
     }
     public static void main(String[] args) throws Exception {
-        for (int i = 0; i <10000 ; i++) {
+        for (int i = 0; i <1 ; i++) {
             IotJmReconnectClient IotJmReconnectClient = new IotJmReconnectClient("192.168.1.39", 28080);
             IotJmReconnectClient.connect();
         }
